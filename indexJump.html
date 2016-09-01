@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Jump</title>
+<link rel="stylesheet" href="../assets/import.css">
+<script src="../assets/jquery.min.js" type="text/javascript"></script>
+<script src="js/common.js"></script>
+</head>
+
+<body>
+<div class="container">
+	<div class="list-group changeColor"> 
+		<!--  --> <a href="javascript:void(0);" class="list-group-item f_jumpToArr">Arr Test</a> 
+		<!--  --> <a href="javascript:void(0);" class="list-group-item f_jumpToCn">Cn Test</a> 
+		<!--  --> </div>
+</div>
+</body>
+</html>
+<script>
+	var pageSize=1;
+	var id=getValue("id");
+	if(id==undefined){
+		alert("Error");
+	}
+	if(id!=0){
+		$(".f_index").show();	
+	}
+	$(".f_jumpToArr").click(function(){
+		mode="testArr"
+		window.location=mode+".html?first=1&pageSize="+pageSize+"&id="+id;	
+	});
+	$(".f_jumpToCn").click(function(){
+		mode="test"
+		window.location=mode+".html?first=1&pageSize="+pageSize+"&id="+id;	
+	});
+</script>

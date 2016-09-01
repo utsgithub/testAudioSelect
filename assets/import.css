@@ -1,0 +1,46 @@
+@charset "utf-8";
+/* CSS Document */
+@import url("bootstrap/css/bootstrap.css");
+@import url("bootstrap/css/bootstrap-theme.min.css");
+@import url("oocss.css");
+body {
+	background-color: #333;
+}
+.changeColor .list-group-item {
+	background-color: #333;
+	color: #CCC;
+	font-size:22px;
+}
+.inclueImg {
+	text-align: center;
+	overflow: hidden;
+}
+.inclueImg img {
+	height: 200px;
+}
+.textarea_full, .textarea_full:focus {
+	display: block;
+	width: 99%;
+	font-size: 22px;
+	height: 28px !important;
+	padding: 0px;
+	border: 0px;
+	background-color: transparent;
+	margin: 0px;
+	margin-right: 10px;
+	-webkit-appearance: none;
+	-webkit-text-size-adjust: none;
+	box-shadow: none;
+	overflow: hidden;
+	line-height: 28px;
+}
+.full a {
+	width: 100%;
+	margin-left: 0;
+	margin-right: 0px;
+	margin-bottom: 10px;
+	padding-left: 0;
+	padding-right: 0;
+	font-size: 22px;
+	line-height: 24px;
+}

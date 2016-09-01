@@ -1,0 +1,22 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<nav class="navbar navbar-inverse" role="navigation">
+	<div class="navbar-inner">
+		<div class="" id="hdr">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
+				<a href="javascript:void(0);" class="navbar-brand">
+					<!--  -->
+					<span class="spPageSize text-warning"></span><span class="text-warning">;</span>
+					<!--  -->
+					<span class="sp1"></span><span class="text-indo">/</span><span class="sp2 text-info"></span><span class="text-danger">/</span><span class="sp3 text-danger"></span>
+					<!--  -->
+					&nbsp;<span class="spTitle"></span></a></div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a class="jsEdit" accesskey="u" target="_blank">[<u>U</u>]pdate</a></li>
+					<li><a class="f_showBtn" href="javascript:void(0);" accesskey="B">Show [<u>B</u>]utton</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</nav>
