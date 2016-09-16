@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -48,16 +49,7 @@
     <Compile Include="javascript\jump.js" />
     <Compile Include="javascript\knockout.js" />
     <Compile Include="javascript\ko_jump.js" />
-    <Compile Include="javascript\senJSON.js" />
-    <Compile Include="javascript\test.js" />
-    <Compile Include="javascript\test.txt" />
-    <Compile Include="javascript\test_arr.js" />
-    <Compile Include="javascript\test_audio.txt" />
-    <Compile Include="javascript\test_cn.js" />
-    <Compile Include="javascript\test_pactice.js" />
-    <Compile Include="javascript\test_select.js" />
     <Compile Include="javascript\test_selectAudio.js" />
-    <Compile Include="javascript\test_sen.txt" />
     <Compile Include="lbi\library.lbi" />
     <Compile Include="demo.html" />
     <Compile Include="index.html" />
@@ -89,5 +81,8 @@
     <Folder Include="javascript" />
     <Folder Include="lbi" />
     <Folder Include="Library" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="css\extra.css" />
   </ItemGroup>
 </Project>
