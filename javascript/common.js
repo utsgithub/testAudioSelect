@@ -7,6 +7,20 @@ function play(numS, numE) {
     }
 }
 
+function playHint() {
+    audioHint.currectTime = 0;
+    //alert(audioHint.readyState);
+    if (audioHint.readyState != 0) {
+        audioHint.play();
+
+        audioHint.addEventListener('ended', function () {
+            $("a.btn2").show();
+        }, false);
+    } else {
+        $("a.btn2").show();
+    }
+}
+
 function getValue(str) {
     var url = location.href;
     var theRequest = new Object();
@@ -74,7 +88,7 @@ function sliptEn(str) {
     //alert(str);
 }
 
-$(".f_showBtn").click(function() {
+$(".f_showBtn").click(function () {
     $("#btnPart").show();
 });
 
@@ -83,8 +97,8 @@ function onbeforeunload_handler() {
     return warning;
 }
 
-$(function() {
-    $(document).keydown(function(event) {
+$(function () {
+    $(document).keydown(function (event) {
         if ((event.altKey && event.keyCode == 83)) {
             //在这里接收的是Alt+S事件,S的ASCII码为83。
             //alert( $("#btnPart a:not(:hidden)").length );

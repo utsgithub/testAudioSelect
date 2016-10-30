@@ -3,12 +3,16 @@
 var testSize = 5;
 var c_audio = 1;
 var c_jump = 0;
-var c_select = 7;
+var c_select = 4;
 var c_page = "testSelect";
 var c_next = 1; //往后跳的数量
+var c_selectMode = 0; // 0: have subtitle, 1: without subtitle
+var f_btnSelect = 0;
 //errors.push(comments[index-1]);
 
 $(function () {
+
+
 
     if (window.navigator.userAgent.indexOf('Chrome') > -1 || window.navigator.userAgent.indexOf('Firefox') > -1) {		//判断是否为chrome浏览器；
         var f_chrome = 1;
@@ -38,6 +42,7 @@ $(function () {
     }
 
     pid = getValue("id");	//git id
+    $(".f_jsViewCate").attr("href", "http://localhost/net_test/net_test/ListsSpry/ListSpryList/" + pid);
     var commentsAll = newsJSON;
 
     var getPagesize = getValue("pageSize");
@@ -46,7 +51,20 @@ $(function () {
     } else {
         pageSize = testSize;
     }
-
+    now_pageSize = pageSize;
+    if (pageSize < 21) {
+        c_selectMode = 0;
+    }
+    if (pageSize > 20) {
+        c_selectMode = 1;
+        pageSize = pageSize - 10;
+    }
+    if (c_selectMode == 1) {
+        $(".e_subTitle").hide();
+    }
+    if (c_selectMode == 0) {
+        $(".e_subTitle").show();
+    }
 
     if (pid == undefined) {	//if id="" then jump to index
         window.location = "index.html";
@@ -66,13 +84,10 @@ $(function () {
     a = usual_search(cateJSON, x); //get num
     c = Number(a) + Number(1);
     var jumpUrl = "";
-    jumpIndex = "index.html?pageSize=" + (Number(pageSize) + Number(c_next)) + "&id=" + cateJSON[a].parentID + "&c_audio=" + c_audio;
-    //jumpIndex="index.html?id="+cateJSON[a].parentID+"&c_audio="+c_audio;
+    jumpIndex = "index.html?pageSize=" + (Number(now_pageSize) + Number(c_next)) + "&id=" + cateJSON[a].parentID + "&c_audio=" + c_audio;
     if (cateJSON[c] !== undefined) {
         if (cateJSON[a].parentID == cateJSON[c].parentID) {
-            //jumpUrl="test.html?id="+cateJSON[c].ID+"&pageSize="+pageSize+"&c_audio="+c_audio;
-            //jumpUrl="test.html?id="+cateJSON[c].ID;
-            jumpUrl = "test.html?id=" + cateJSON[c].ID + "&pageSize=" + pageSize
+            jumpUrl = "test.html?id=" + cateJSON[c].ID + "&pageSize=" + now_pageSize;
         } else {
             jumpUrl = jumpIndex;
         }
@@ -86,9 +101,6 @@ $(function () {
             comments.push(commentsAll[i]);
         }
     }
-    //console.log("comments");
-    //console.log(comments);
-    //Todo: Be Function
     //alert(print_array(comments));
     $(".f_jumpTest").attr("href", "testArr.html?id=" + pid); //page jump	
     var t1 = new Date().getTime(); //初始化时间
@@ -110,7 +122,20 @@ $(function () {
     if (comments.length < pageSize) { pageSize = comments.length; }
     comments = f_control_num(pageSize, comments);
 
-    act(); //进入函数act
+    getFirst = getValue("first");
+    if (getFirst == 1) {
+        $(".container").hide();
+        $(".f_text").val(cateJSON[usual_search(cateJSON, pid)].title + ": " + getValue("pageSize"));
+        $('#myModal').modal('show');
+    } else {
+        act(); // 进入函数act	
+    }
+
+    $(".f_close").click(function () {
+        $('#myModal').modal('hide');
+        $(".container").show();
+        act();
+    });
 
     function act() {
         //index=f_control_repeat(5,15,index);
@@ -125,6 +150,18 @@ $(function () {
         }
 
         if (index < comments.length) {			//如果指针在范围内；
+            var hint = comments[index]['hint'];
+            var hintAudio=hint;
+            hintAudio = hintAudio.replace("<", ",");
+            hintAudio = hintAudio.replace(">", ",");
+            hintAudio = hintAudio.replace("/", ",");
+            hintAudio = hintAudio.replace(/\"/g, "");
+            hintAudio = hintAudio.replace("|", ",");
+            hintAudio = hintAudio.replace(":", ",");
+            //hintAudio = hintAudio.replace('"', "");
+            hintAudio = hintAudio.replace("*", ".");
+            hintAudio = hintAudio.replace("?", ".");
+            var subTitle = comments[index]['subTitle']; //Answer (English)
             $(".e_element").hide();				//隐藏所有元素；
             $(".en").html("");					//初始化英文部分；
             $(".cn").html("");					//初始化中文部分；
@@ -133,7 +170,11 @@ $(function () {
             $("span.sp1").html(index + 1);		//调整当前数值；
             $("span.sp2").html(comments.length);//显示总数；
             $("lib.b").show();					//输入框显示		
-            $("textarea.b").val("");			//输入框清空			
+            $("textarea.b").val("");			//输入框清空		
+            $(".f_pre").html("");
+            if (index > 0 && comments[index - 1]['subTitle'] != subTitle) {
+                $(".f_pre").html(comments[index - 1]['subTitle'] + " / " + comments[index - 1]['subject']);
+            }
             q = comments[index]['q'];
             q_en = comments[index]['q_en'];
             if (q_en == "") {
@@ -143,19 +184,35 @@ $(function () {
             $(".f_img").attr("src", ".." + comments[index]['image']) //图片区赋值
             $(".q_en").html(q_en);//问题区赋值
             $(".f_subject").html(comments[index]['subject']);//问题区赋值
-            $(".f_subTitle").html(comments[index]['subTitle']);//答案区赋值
+            $(".f_subTitle").html(subTitle);//答案区赋值
+            if (hint != "" & hint != null) {
+                $(".hint").html(hint.replace(subTitle, "<b class='font_red'>" + subTitle + "</b>"));//提示区赋值
+                //comments[index - 1]['subTitle'] + "\n" + comments[index - 1]['subject'] + "\n" + comments[index - 1]['hint'].replace(comments[index - 1]['subTitle'], "_*" + comments[index - 1]['subTitle'] + "*_").replace(" / ", "\n")
+            } else {
+                //$(".hint").parents().hide();
+                $(".hint").html(subTitle);//提示区赋值
+            }
             $(".sen .en").html(comments[index]['en']);//问题区赋值
             $(".sen .cn").html(comments[index]['cn']);//答案区赋值
             $(".btnQ").html(btnQ);
             $(".e_act1").show();				//显示：act1元素；
             f_select(org_comments, c_select, f_chrome);
+
             if (c_audio == 1) {
                 s_audio = "";
                 s_audio = comments[index]['subTitle'] + ".mp3";
-                $("audio").attr({ "src": "" });
-                $("audio").attr({ "src": "../audio/" + s_audio });
+                $("audio#player").attr({ "src": "" });
+                $("audio#player").attr({ "src": "../audio/" + s_audio });
                 audio = document.getElementById('player') //初始化音频路径
                 play(0, 1);
+            }
+            if (c_audio == 1) {
+                s_audioHint = "";
+                s_audioHint = hintAudio + ".mp3";
+                $("audio#playerHint").attr({ "src": "" });
+                $("audio#playerHint").attr({ "src": "../hint/" + s_audioHint });
+                audioHint = document.getElementById('playerHint') //初始化音频路径
+                //play(0, 1);
             }
             //			$("textarea.b")[0].focus();			//输入框焦点
 
@@ -211,11 +268,11 @@ $(function () {
         $("textarea.b").val("");
         $("a.btnP").show();
         if (c_audio == 1) {
-            audio = document.getElementById('player');
-            play(0, 3);	//错误后重复3次
+            audioHint = document.getElementById('playerHint');
+            playHint();	//错误后重复3次
         }
         $(".e_act3").show();				//显示：act3元素；
-        $("a.btn2").hide().delay(dNum).fadeIn();
+        //$("a.btn2").hide().delay(dNum).fadeIn();
         $("a.btn3").hide();
     }
     $("a.btnCn").click(function () {
@@ -226,10 +283,17 @@ $(function () {
         $(".f_1st").hide();
         $(".f_slipt").hide();
         if ($(this).attr("f_a") == $(".f_subTitle").html()) {
-            act();
+            if (f_btnSelect == 1) {
+                f_btnSelect = 0;
+                act3();
+                //alert(comments[index - 1]['subTitle'] + "\n" + comments[index - 1]['subject'] + "\n" + comments[index - 1]['hint'].replace(comments[index - 1]['subTitle'], "_*" + comments[index - 1]['subTitle'] + "*_").replace(" / ", "\n"));
+            } else {
+                act();
+            }
         } else {
             //act3();
             $(this).children(".label").show();
+            f_btnSelect = 1;
             play(0, 1);
             //eNum+=1;
 

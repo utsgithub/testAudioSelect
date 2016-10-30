@@ -3,7 +3,7 @@
 }
 
 .zoom {
-    zoom: 1.5;
+    zoom: 2;
 }
 
 .s_selectList li a {
@@ -19,5 +19,9 @@
 }
 
 .font_red {
-    color: #f60;
+    color: red;
+}
+
+.strong {
+    font-weight: bold;
 }
